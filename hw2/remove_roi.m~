@@ -1,0 +1,21 @@
+function [roiRemovedImg, roiRemovedEnergyImg] = remove_roi(im, ...
+    energyIm, roiIm)
+% remove the roi area from the image
+roiRemvoedImg = im;
+roiRemovedEnergyImg = energyIm;
+
+% determine decrease height or decrease width
+[ptrsX, ptrsY] = find(roiIm);
+nPtrsToRemove = numel(ptrsX);
+widthToRemove = max(ptrsY) - min(ptrsY);
+heightToRemove = max(ptrsX) - min(ptrsX);
+if heightToRemove > widthToRemove % decrease the width
+    while ~isempty(find(roiIm, 1))
+        [im, energyIm, roiIm] = decrease_width_to_remove_roi_single_seam(...
+            im, energyIm, roiIm);
+        nPtrsToRemove = numel(find(roiIm));
+    end
+else
+end
+
+                                           
